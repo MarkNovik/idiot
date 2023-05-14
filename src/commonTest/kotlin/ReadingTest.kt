@@ -3,7 +3,7 @@ import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
-private const val IN_PATH = "C:\\Users\\Markn\\IdeaProjects\\idiot\\src\\commonTest\\resources\\Text.txt"
+private const val IN_PATH = "src/commonTest/resources/Text.txt"
 private const val CONTENT = "Hello, it's some text"
 
 
