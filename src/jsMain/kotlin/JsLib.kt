@@ -1,19 +1,20 @@
 package  me.mark.idiot
 
 import Buffer
+import fs.realpathSync
+import org.khronos.webgl.Uint8Array
+import org.khronos.webgl.get
+import child_process.`T$16` as AbsolutePathOptions
 import fs.`T$42` as ReadBytesOptions
 import fs.`T$43` as ReadTextOptions
 import fs.`T$45` as WriteOptions
-import org.khronos.webgl.Uint8Array
-import org.khronos.webgl.get
 
 actual fun Path(path: String): Path = PathImpl(path)
 
 private value class PathImpl(override val path: String) : Path {
-    override val isFile: Boolean
-        get() = fs.statSync(path).isFile()
-    override val isDirectory: Boolean
-        get() = fs.statSync(path).isDirectory()
+    override val isFile: Boolean get() = fs.statSync(path).isFile()
+    override val isDirectory: Boolean get() = fs.statSync(path).isDirectory()
+    override val absolutePath: String get() = realpathSync(path, absolutePathString).unsafeCast<String>()
 
     override fun readText(): String = fs.readFileSync(path, readText)
 
@@ -25,6 +26,10 @@ private value class PathImpl(override val path: String) : Path {
 
 private fun Buffer.toByteArray(): ByteArray = ByteArray(length, ::get)
 private fun ByteArray.toJsArray(): Uint8Array = Uint8Array(toTypedArray())
+
+private val absolutePathString = object : AbsolutePathOptions {
+    override var encoding: String? = "utf8"
+}
 
 private val writeBytes = object : WriteOptions {
     override var encoding: String? = null

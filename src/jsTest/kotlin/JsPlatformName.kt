@@ -1,1 +1,0 @@
-actual val platformName: String = "Js"

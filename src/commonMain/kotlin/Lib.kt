@@ -2,6 +2,7 @@ package me.mark.idiot
 
 interface Path  {
     val path: String
+    val absolutePath: String
 
     val isFile: Boolean
     val isDirectory: Boolean

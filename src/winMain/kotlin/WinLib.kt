@@ -2,7 +2,9 @@ package me.mark.idiot
 
 import kotlinx.cinterop.*
 import platform.posix.*
-import platform.windows.CHARVar
+import platform.posix.SEEK_END
+import platform.posix.SEEK_SET
+import platform.windows.*
 
 actual fun Path(path: String): Path = PathImpl(path)
 
@@ -20,6 +22,18 @@ private value class PathImpl(override val path: String) : Path {
             val stat = alloc<stat>()
             stat(path, stat.ptr)
             (stat.st_mode and S_IFMT.toUShort()) == S_IFDIR.toUShort()
+        }
+
+    override val absolutePath: String
+        get() = memScoped {
+            val buf = allocArray<TCHARVar>(MAX_PATH)
+            GetFullPathNameW(
+                path,
+                (MAX_PATH).toUInt(),
+                buf,
+                null
+            )
+            buf.toKStringFromUtf16()
         }
 
 

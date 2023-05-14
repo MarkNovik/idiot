@@ -5,7 +5,8 @@ import java.nio.file.Path as JavaPath
 
 @JvmInline
 private value class PathImpl(private val file: JavaPath) : Path {
-    override val path: String get() = file.absolutePathString()
+    override val path: String get() = file.pathString
+    override val absolutePath: String get() = file.absolutePathString()
     override val isFile: Boolean get() = file.exists() && file.isRegularFile()
     override val isDirectory: Boolean get() = file.exists() && file.isDirectory()
     override fun readText(): String = if (file.exists()) file.readText() else ""
