@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 expect val platformName: String
 
-private val OUT_PATH get() = "src/commonTest/resources/Out$platformName.txt"
+private val OUT_PATH get() = relativePath.replace("Text", "Out$platformName")
 private const val CONTENT = "Hello, it's some text"
 
 
